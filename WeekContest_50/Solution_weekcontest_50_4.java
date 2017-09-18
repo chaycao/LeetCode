@@ -3,15 +3,17 @@ import java.util.List;
 
 /**
  * Created by chayc on 2017/9/18.
- * 暴力法，还没做出来。。。
+ * 26ms,暴力法
  */
 public class Solution_weekcontest_50_4 {
     public boolean judgePoint24(int[] nums) {
         List<List<Float>> list = new ArrayList<>();
         int[] flag = {0,0,0,0};
         allSort(list, new ArrayList<>(), flag, nums, 0);
-        for (int i = 0 ; i < 4; i++) {
+        for (int i = 0 ; i < 24; i++) {
             if (fun(list.get(i), 1, list.get(i).get(0)) == true)
+                return true;
+            if (fun_2(list.get(i)) == true)
                 return true;
         }
         return false;
@@ -35,15 +37,17 @@ public class Solution_weekcontest_50_4 {
     public boolean fun(List<Float> list, int index, float result) {
         if (index == 4)
         {
-            if(Math.abs(result - 24) < 2)
+            if (result < 24.1 && result > 23.9)
+            {
                 System.out.println(result);
-            if ((int)result == 24)
                 return true;
+            }
+
             else
                 return false;
         }
 
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 6; i++) {
             switch (i){
                 case 0:
                     result += list.get(index);
@@ -69,13 +73,83 @@ public class Solution_weekcontest_50_4 {
                         return true;
                     result *= list.get(index);
                     break;
+                case 4:
+                    float temp = result;
+                    result = list.get(index) - result;
+                    if (fun(list, index+1, result) == true)
+                        return true;
+                    result = temp;
+                    break;
+                case 5:
+                    float temp_1 = result;
+                    result = list.get(index) / result;
+                    if (fun(list, index+1, result) == true)
+                        return true;
+                    result = temp_1;
+                    break;
+            }
+        }
+        return false;
+    }
+
+    public boolean fun_2(List<Float> list) {
+        float result_left = 0;
+        float result_right = 0;
+        for (int i = 0; i < 4; i++) {
+            switch (i) {
+                case 0:
+                    result_left = list.get(0) + list.get(1);
+                    break;
+                case 1:
+                    result_left = list.get(0) - list.get(1);
+                    break;
+                case 2:
+                    result_left = list.get(0) * list.get(1);
+                    break;
+                case 3:
+                    result_left = list.get(0) / list.get(1);
+                    break;
+            }
+            for (int j = 0; j < 4; j++) {
+                switch (j) {
+                    case 0:
+                        result_right = list.get(2) + list.get(3);
+                        break;
+                    case 1:
+                        result_right = list.get(2) - list.get(3);
+                        break;
+                    case 2:
+                        result_right = list.get(2) * list.get(3);
+                        break;
+                    case 3:
+                        result_right = list.get(2) / list.get(3);
+                        break;
+
+                }
+                for (int k = 0; k < 4; k++) {
+                    switch (k) {
+                        case 0:
+                            if ((result_left + result_right) < 24.1 && (result_left + result_right) > 23.9)
+                                return true;
+                        case 1:
+                            if ((result_left - result_right) < 24.1 && (result_left - result_right) > 23.9)
+                                return true;
+                        case 2:
+                            if ((result_left * result_right) < 24.1 && (result_left * result_right) > 23.9)
+                                return true;
+                        case 3:
+                            if ((result_left / result_right) < 24.1 && (result_left / result_right) > 23.9)
+                                return true;
+                    }
+
+                }
             }
         }
         return false;
     }
 
     public static void main(String[] args) {
-        int[] nums = {1,3,4,6};
+        int[] nums = {3,3,7,7};
         System.out.println(new Solution_weekcontest_50_4().judgePoint24(nums));
     }
 }
