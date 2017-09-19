@@ -4,6 +4,14 @@ import java.util.List;
 /**
  * Created by chayc on 2017/9/18.
  * 26ms,暴力法
+ * 总结下来觉得 直接从括号出发，更为简单
+ * ((A B) C) D)
+ * (A (B C)) D
+ * A ((B C) D)
+ * A (B (C D))
+ * (A B) (C D)
+ * 这5种 每个 4*4*4 再乘上24
+ * 7680次
  */
 public class Solution_weekcontest_50_4 {
     public boolean judgePoint24(int[] nums) {
@@ -34,6 +42,7 @@ public class Solution_weekcontest_50_4 {
         }
     }
 
+    // 应对大部分情况
     public boolean fun(List<Float> list, int index, float result) {
         if (index == 4)
         {
@@ -92,6 +101,7 @@ public class Solution_weekcontest_50_4 {
         return false;
     }
 
+    // 应对(A B) (C D)形式，填运算符
     public boolean fun_2(List<Float> list) {
         float result_left = 0;
         float result_right = 0;
