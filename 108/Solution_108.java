@@ -13,34 +13,25 @@ public class Solution_108 {
         TreeNode right;
         TreeNode(int x) { val = x; }
     }
-    public boolean isBalanced(TreeNode root) {
-        if(root == null)
-            return true;
-        int[] depth = new int[1];
-        return fun(root, depth);
-    }
+    public TreeNode sortedArrayToBST(int[] nums) {
+        TreeNode root = null;
+        if (nums == null || nums.length == 0) {
+            return root;
+        }
+        root = fun(nums, 0, nums.length-1);
+        return root;
 
-    public boolean fun(TreeNode root, int[] depth) {
-        if (root.left == null && root.right == null) {
-            depth[0] = 0;
-            return true;
+    }
+    public TreeNode fun(int[] nums, int start, int end) {
+        int index = (end-start)/2 + start;
+        TreeNode root = new TreeNode(nums[index]);
+        // 构造左右子树
+        if (index > start) {
+            root.left = fun(nums, start, index-1);
         }
-        int d_left = 0, d_right = 0;
-        if (root.left != null) {
-            if(fun(root.left, depth) == false)
-                return false;
-            d_left = ++depth[0];
+        if (index < end) {
+            root.right = fun(nums, index+1, end);
         }
-        if (root.right != null) {
-            if(fun(root.right, depth) == false)
-                return false;
-            d_right = ++depth[0];
-        }
-        System.out.println("" + root.val + " " + d_left + " " +d_right);
-        depth[0] = Math.max(d_left, d_right);
-        if (Math.abs(d_left - d_right) <= 1)
-            return true;
-        else
-            return false;
+        return root;
     }
 }
