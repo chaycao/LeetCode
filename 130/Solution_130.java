@@ -31,20 +31,22 @@ public class Solution_130 {
         }
     }
     public void dfs (char[][] board, int x, int y) {
-        Queue<Integer> queue_x = new LinkedList<>();
-        Queue<Integer> queue_y =  new LinkedList<>();
-        queue_x.offer(x);
-        queue_y.offer(y);
-        while (queue_x.size() != 0) {
-            int a = queue_x.poll();
-            int b = queue_y.poll();
-            board[a][b] = '$';
+        Stack<Integer> stack_x = new Stack<>();
+        Stack<Integer> stack_y =  new Stack<>();
+        stack_x.push(x);
+        stack_y.push(y);
+        board[x][y] = '$';
+        while (stack_x.size() != 0) {
+            int a = stack_x.pop();
+            int b = stack_y.pop();
             for (int i = 0; i < 4; i++) {
-                int dx = x + dir[i][0];
-                int dy = y + dir[i][1];
+                int dx = a + dir[i][0];
+                int dy = b + dir[i][1];
                 if (dx >= 0 && dx < height && dy >= 0 && dy < width && board[dx][dy] == 'O') {
-                    queue_x.offer(dx);
-                    queue_y.offer(dy);
+                    stack_x.push(dx);
+                    stack_y.push(dy);
+
+                    board[dx][dy] = '$';
                 }
             }
         }
