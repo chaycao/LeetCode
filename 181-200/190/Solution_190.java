@@ -18,6 +18,7 @@ public class Solution_190 {
     }
 
 
+
     public static void main(String[] args) {
         System.out.println(new Solution_190().reverseBits(1 ));
     }
